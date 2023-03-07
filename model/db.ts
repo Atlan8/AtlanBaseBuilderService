@@ -17,7 +17,7 @@ const pool = mysql.createPool({
  * @returns
  */
 const query = <T>(sql: string, value: any[]) => {
-  return new Promise((resolve, reject) => {
+  return new Promise<T>((resolve, reject) => {
     pool.getConnection((err: Error, connection: any) => {
       if (err) {
         reject(err);

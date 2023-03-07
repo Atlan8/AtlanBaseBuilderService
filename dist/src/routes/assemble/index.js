@@ -16,7 +16,7 @@ const express_1 = __importDefault(require("express"));
 const db_1 = __importDefault(require("../../../model/db"));
 const assemble = express_1.default.Router();
 const sql = {
-    queryAssemble: "SELECT * FROM `assemble`",
+    queryAssemble: `select a.id, a.name, a.total, a.timestramp, a.datetime, concat('{ "name": "', t.name, '", "price":", t.price, ", "link": "', ifnull(t.link, ''), '" }') as cpu from assemble a left join cpu t on 1=1`,
 };
 assemble.get("/api/getAssembleList", (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     // res.setHeader("Access-Control-Allow-Origin", "*");
@@ -24,7 +24,14 @@ assemble.get("/api/getAssembleList", (req, res) => __awaiter(void 0, void 0, voi
     if (!body.id) {
         const rows = yield (0, db_1.default)(sql.queryAssemble, []);
         console.warn(rows);
-        res.send("Express + TypeScript Server");
+        for (let i = 0; i < rows.length; i++) {
+            rows[i].cpu = JSON.parse(rows[i].cpu);
+        }
+        res.send({
+            errorCode: 10000,
+            msg: "成功",
+            data: rows,
+        });
     }
 }));
 exports.default = assemble;
