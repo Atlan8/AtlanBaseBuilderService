@@ -1,6 +1,7 @@
 import express from "express";
 import query from "../../../model/db";
 import { AssembleInfo } from "../../types/assemble";
+import { formatData } from "../../utils/format";
 
 const assemble = express.Router();
 
@@ -17,6 +18,7 @@ assemble.get("/api/getAssembleList", async (req, res) => {
     console.warn(rows);
     for (let i = 0; i < rows.length; i++) {
       rows[i].cpu = JSON.parse(rows[i].cpu as unknown as string);
+      rows[i].datetime = formatData(rows[i].datetime);
     }
     res.send({
       errorCode: 10000,
