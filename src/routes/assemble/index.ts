@@ -18,7 +18,7 @@ assemble.get("/api/getAssembleList", async (req, res) => {
     console.warn(rows);
     for (let i = 0; i < rows.length; i++) {
       rows[i].cpu = JSON.parse(rows[i].cpu as unknown as string);
-      rows[i].datetime = formatData(rows[i].datetime);
+      rows[i].datetime = formatData(rows[i].datetime, "yyyy-MM-dd HH:mm:ss");
     }
     res.send({
       errorCode: 10000,

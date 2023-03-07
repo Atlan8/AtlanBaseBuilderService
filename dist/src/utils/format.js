@@ -1,6 +1,12 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.formatData = void 0;
+/**
+ * 格式化时间
+ * @param dateStr 时间字符串
+ * @param format 格式
+ * @returns 格式化后的字符串
+ */
 function formatData(dateStr, format = "YYYY/MM/DD HH:mm:ss") {
     // if (dateStr.trim() === "") {
     //   throw Error("请传入正确的时间字符串！");
@@ -26,8 +32,8 @@ function formatData(dateStr, format = "YYYY/MM/DD HH:mm:ss") {
         if (kER.test(format)) {
             let str = `${o[k]}`;
             const match = format.match(kER);
-            // console.warn("---> date replace: ", match, str);
-            match && match.length >= 1 && format.replace(match[1], match[1].length === 1 ? str : padLeftZero(str));
+            console.warn("---> date replace: ", match, padLeftZero(str));
+            match && match.length >= 1 && (format = format.replace(match[1], match[1].length === 1 ? str : padLeftZero(str)));
         }
     }
     return format;
