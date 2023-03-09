@@ -1,6 +1,6 @@
 import express from "express";
 import query from "../../../model/db";
-import { AssembleInfo } from "../../types/assemble";
+import { AccessoriesInfoExt, AssembleInfo } from "../../types/assemble";
 import { formatData } from "../../utils/format";
 
 const assemble = express.Router();
@@ -18,12 +18,28 @@ assemble.get("/api/getAssembleList", async (req, res) => {
     console.warn(rows);
     for (let i = 0; i < rows.length; i++) {
       rows[i].cpu = JSON.parse(rows[i].cpu as unknown as string);
+      rows[i].motherboard = JSON.parse(rows[i].motherboard as unknown as string);
+      rows[i].graphicsCard = JSON.parse(rows[i].graphicsCard as unknown as string);
+      rows[i].memory = JSON.parse(rows[i].memory as unknown as string);
+
+      rows[i].hardDiskList = [JSON.parse(rows[i].hardDiskList as unknown as string)];
+      rows[i].radiator = JSON.parse(rows[i].radiator as unknown as string);
+      rows[i].fan = JSON.parse(rows[i].fan as unknown as string);
+      rows[i].powerSupply = JSON.parse(rows[i].powerSupply as unknown as string);
+      rows[i].chassis = JSON.parse(rows[i].chassis as unknown as string);
+
       rows[i].datetime = formatData(rows[i].datetime, "yyyy-MM-dd HH:mm:ss");
     }
     res.send({
       errorCode: 10000,
       msg: "成功",
       data: rows,
+    });
+  } else {
+    res.send({
+      errorCode: 50001,
+      msg: "未知错误",
+      data: null,
     });
   }
 });

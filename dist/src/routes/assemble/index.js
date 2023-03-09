@@ -27,6 +27,14 @@ assemble.get("/api/getAssembleList", (req, res) => __awaiter(void 0, void 0, voi
         console.warn(rows);
         for (let i = 0; i < rows.length; i++) {
             rows[i].cpu = JSON.parse(rows[i].cpu);
+            rows[i].motherboard = JSON.parse(rows[i].motherboard);
+            rows[i].graphicsCard = JSON.parse(rows[i].graphicsCard);
+            rows[i].memory = JSON.parse(rows[i].memory);
+            rows[i].hardDiskList = [JSON.parse(rows[i].hardDiskList)];
+            rows[i].radiator = JSON.parse(rows[i].radiator);
+            rows[i].fan = JSON.parse(rows[i].fan);
+            rows[i].powerSupply = JSON.parse(rows[i].powerSupply);
+            rows[i].chassis = JSON.parse(rows[i].chassis);
             rows[i].datetime = (0, format_1.formatData)(rows[i].datetime, "yyyy-MM-dd HH:mm:ss");
         }
         res.send({
