@@ -32,7 +32,7 @@ function formatData(dateStr, format = "YYYY/MM/DD HH:mm:ss") {
         if (kER.test(format)) {
             let str = `${o[k]}`;
             const match = format.match(kER);
-            console.warn("---> date replace: ", match, padLeftZero(str));
+            // console.warn("---> date replace: ", match, padLeftZero(str));
             match && match.length >= 1 && (format = format.replace(match[1], match[1].length === 1 ? str : padLeftZero(str)));
         }
     }
