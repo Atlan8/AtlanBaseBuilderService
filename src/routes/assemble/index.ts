@@ -69,7 +69,7 @@ assemble.get("/api/getAssembleListById", async (req, res) => {
     res.send({
       errorCode: 10000,
       msg: "成功",
-      data: rows,
+      data: rows.length > 0 ? rows[0] : null,
     });
   } else {
     res.send({
