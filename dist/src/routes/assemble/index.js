@@ -84,4 +84,8 @@ assemble.get("/api/getAssembleListById", (req, res) => __awaiter(void 0, void 0,
         });
     }
 }));
+assemble.post("/api/assemble/edit", (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+    const body = req.body;
+    console.log("---> post 请求体: ", body);
+}));
 exports.default = assemble;

@@ -80,4 +80,10 @@ assemble.get("/api/getAssembleListById", async (req, res) => {
   }
 });
 
+assemble.post("/api/assemble/edit", async (req, res) => {
+  const body = req.body;
+
+  console.log("---> post 请求体: ", body);
+});
+
 export default assemble;
