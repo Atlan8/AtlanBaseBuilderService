@@ -1,4 +1,5 @@
 export interface AccessoriesInfo {
+  id: number;
   name: string; // CPU名称
   price: number; // CPU单价
   link: string; // CPU购买链接
