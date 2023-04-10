@@ -17,6 +17,7 @@ export const parseRows = <T>(rows: T): T => {
     for (const key in rows[i]) {
       if (rowKeyMap.includes(key)) {
         rows[i][key] = JSON.parse(rows[i][key] as unknown as string);
+        key === "hardDiskList" && (rows[i][key] = [rows[i][key]]);
       }
     }
     // rows[i].cpu = JSON.parse(rows[i].cpu as unknown as string);

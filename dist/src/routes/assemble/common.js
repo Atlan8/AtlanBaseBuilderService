@@ -17,6 +17,7 @@ const parseRows = (rows) => {
         for (const key in rows[i]) {
             if (rowKeyMap.includes(key)) {
                 rows[i][key] = JSON.parse(rows[i][key]);
+                key === "hardDiskList" && (rows[i][key] = [rows[i][key]]);
             }
         }
         // rows[i].cpu = JSON.parse(rows[i].cpu as unknown as string);
