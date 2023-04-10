@@ -15,6 +15,7 @@ Object.defineProperty(exports, "__esModule", { value: true });
 const express_1 = __importDefault(require("express"));
 const db_1 = __importDefault(require("../../../model/db"));
 const format_1 = require("../../utils/format");
+const common_1 = require("./common");
 const assemble = express_1.default.Router();
 const sql = {
     queryAssemble: `select a.id, a.name, a.total, a.timestramp, a.datetime, t.info as cpu, m.info as motherboard, me.info as memory, r.info as radiator, h.info as hardDiskList, g.info as graphicsCard, p.info as powerSupply, c.info as chassis, f.info as fan from assemble a left join cpu t on a.cpu = t.ID left join motherboard m on a.motherboard = m.id left join memory me on a.memory = me.id left join radiator r on a.radiator = r.id left join hard_disk h on a.hardDiskList = h.id left join graphics_card g on a.graphicsCard = g.id left join power_supply p on a.powerSupply = p.id left join chassis c on a.chassis = c.id left join fan f on a.fan = f.id`,
@@ -26,22 +27,23 @@ assemble.get("/api/getAssembleList", (req, res) => __awaiter(void 0, void 0, voi
     if (!body.id) {
         const rows = yield (0, db_1.default)(sql.queryAssemble, []);
         console.warn(rows);
-        for (let i = 0; i < rows.length; i++) {
-            rows[i].cpu = JSON.parse(rows[i].cpu);
-            rows[i].motherboard = JSON.parse(rows[i].motherboard);
-            rows[i].graphicsCard = JSON.parse(rows[i].graphicsCard);
-            rows[i].memory = JSON.parse(rows[i].memory);
-            rows[i].hardDiskList = [JSON.parse(rows[i].hardDiskList)];
-            rows[i].radiator = JSON.parse(rows[i].radiator);
-            rows[i].fan = JSON.parse(rows[i].fan);
-            rows[i].powerSupply = JSON.parse(rows[i].powerSupply);
-            rows[i].chassis = JSON.parse(rows[i].chassis);
-            rows[i].datetime = (0, format_1.formatData)(rows[i].datetime, "yyyy-MM-dd HH:mm:ss");
-        }
+        // for (let i = 0; i < rows.length; i++) {
+        //   rows[i].cpu = JSON.parse(rows[i].cpu as unknown as string);
+        //   rows[i].motherboard = JSON.parse(rows[i].motherboard as unknown as string);
+        //   rows[i].graphicsCard = JSON.parse(rows[i].graphicsCard as unknown as string);
+        //   rows[i].memory = JSON.parse(rows[i].memory as unknown as string);
+        //   rows[i].hardDiskList = [JSON.parse(rows[i].hardDiskList as unknown as string)];
+        //   rows[i].radiator = JSON.parse(rows[i].radiator as unknown as string);
+        //   rows[i].fan = JSON.parse(rows[i].fan as unknown as string);
+        //   rows[i].powerSupply = JSON.parse(rows[i].powerSupply as unknown as string);
+        //   rows[i].chassis = JSON.parse(rows[i].chassis as unknown as string);
+        //   rows[i].datetime = formatData(rows[i].datetime, "yyyy-MM-dd HH:mm:ss");
+        // }
+        const _rows = (0, common_1.parseRows)(rows);
         res.send({
             errorCode: 10000,
             msg: "成功",
-            data: rows,
+            data: _rows,
         });
     }
     else {
