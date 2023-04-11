@@ -1,3 +1,4 @@
+import { AssembleInfo } from "../../types/assemble";
 import { formatData } from "../../utils/format";
 
 /** 需要处理的key map */
@@ -34,5 +35,25 @@ export const parseRows = <T>(rows: T): T => {
     rows[i].datetime = formatData(rows[i].datetime, "yyyy-MM-dd HH:mm:ss");
   }
 
+  return rows;
+};
+
+/**
+ * 搜索数组
+ * @param rows
+ * @param keyword
+ * @returns
+ */
+export const searchByWord = <T extends AssembleInfo>(rows: T[], keyword?: string): T[] => {
+  if (!!keyword && Array.isArray(rows)) {
+    let _rows = [];
+    for (let i = 0; i < rows.length; i++) {
+      const item = rows[i];
+      if (item.name && item.name.indexOf(keyword) !== -1) {
+        _rows.push(item);
+      }
+    }
+    return _rows;
+  }
   return rows;
 };

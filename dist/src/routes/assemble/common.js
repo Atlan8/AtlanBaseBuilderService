@@ -1,6 +1,6 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.parseRows = void 0;
+exports.searchByWord = exports.parseRows = void 0;
 const format_1 = require("../../utils/format");
 /** 需要处理的key map */
 const rowKeyMap = ["cpu", "motherboard", "graphicsCard", "memory", "hardDiskList", "radiator", "fan", "powerSupply", "chassis"];
@@ -34,3 +34,23 @@ const parseRows = (rows) => {
     return rows;
 };
 exports.parseRows = parseRows;
+/**
+ * 搜索数组
+ * @param rows
+ * @param keyword
+ * @returns
+ */
+const searchByWord = (rows, keyword) => {
+    if (!!keyword && Array.isArray(rows)) {
+        let _rows = [];
+        for (let i = 0; i < rows.length; i++) {
+            const item = rows[i];
+            if (item.name && item.name.indexOf(keyword) !== -1) {
+                _rows.push(item);
+            }
+        }
+        return _rows;
+    }
+    return rows;
+};
+exports.searchByWord = searchByWord;
