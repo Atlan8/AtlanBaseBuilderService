@@ -44,11 +44,11 @@ assemble.get("/api/getAssembleListById", async (req, res) => {
   if (!!body.id) {
     const rows = await query<AssembleInfo[]>(sql.queryAssembleById, [body.id]);
     console.warn(rows);
-    const _rows = parseRows(rows);
+    const _rows = parseRows<AssembleInfo[]>(rows);
     res.send({
       errorCode: 10000,
       msg: "成功",
-      data: _rows.length > 0 ? _rows[0] : null,
+      data: _rows && _rows.length > 0 ? _rows[0] : null,
     });
   } else {
     res.send({

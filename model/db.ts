@@ -1,10 +1,10 @@
-import mysql from "mysql";
+import mysql from 'mysql2/promise';
 
 const pool = mysql.createPool({
   host: "localhost",
   user: "root",
-  password: "asdfghjkl551,H",
-  database: "atlan_base",
+  password: "123456",
+  database: "mysql",
   port: 3306,
 });
 
@@ -17,24 +17,32 @@ const pool = mysql.createPool({
  * @returns
  */
 const query = <T>(sql: string, value: any[]) => {
-  return new Promise<T>((resolve, reject) => {
-    pool.getConnection((err: Error, connection: any) => {
-      if (err) {
-        reject(err);
-      } else {
-        connection.query(sql, value, (_err: Error, rows: T) => {
-          if (_err) {
-            console.error(_err);
-            reject(_err);
-          } else {
-            resolve(rows);
-          }
+  return new Promise<T>(async (resolve, reject) => {
+    // pool.getConnection((err: ErrnoException | null, connection: PoolConnection) => {
+    //   if (err) {
+    //     reject(err);
+    //   } else {
+    //     connection.query(sql, value, (_err: Error, rows: T) => {
+    //       if (_err) {
+    //         console.error(_err);
+    //         reject(_err);
+    //       } else {
+    //         resolve(rows);          
+    //       }
 
-          // 结束会话
-          connection.release();
-        });
-      }
-    });
+    //       // 结束会话
+    //       connection.release();
+    //     });
+    //   }
+    // });
+    const conn = await pool.getConnection()
+    const [results, fields] = await conn.query(sql, value)
+
+    console.log('---> ', results)
+    resolve(results as T)
+
+    // Don't forget to release the connection when finished!
+pool.releaseConnection(conn);
   });
 };
 
